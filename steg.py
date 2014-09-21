@@ -1,3 +1,4 @@
+import os
 import Image
 
 class RedOnlyStrategy():
@@ -43,7 +44,8 @@ class Steganographer():
     def encode(self, message):
         im = Image.open(self.path)
         self.strategy.encode_message(im, message)
-        im.save('encoded.png')
+        path_for_encoded_image = create_path(self.path)
+        im.save(path_for_encoded_image)
 
     def decode(self):
         im = Image.open(self.path)
@@ -145,3 +147,10 @@ def decode_length(bytes):
         if (multiplier > 128*128*128):
             raise Error('Malformed Length')
     return value
+
+def create_path(path):
+    resolved_path = os.path.abspath(path)
+    dirname = os.path.dirname(resolved_path)
+    filename,ext = os.path.splitext(resolved_path)
+    new_path = os.path.join(dirname,filename+'.encoded'+ext)
+    return new_path

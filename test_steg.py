@@ -1,4 +1,6 @@
 import unittest
+import os
+
 from steg import *
 
 class TestBitsAndBytesUtilities(unittest.TestCase):
@@ -56,6 +58,13 @@ class TestBitsAndBytesUtilities(unittest.TestCase):
     def test_bits_to_bytes(self):
         bits = ([0]*32)+[0,0,0,0,1,0,1,1]
         self.assertEquals(len(bits_to_bytes(bits)), 5)
+
+    def test_altering_a_filename(self):
+        resolved_path = os.path.abspath('something.png')
+        dirname = os.path.dirname(resolved_path)
+        filename,ext = os.path.splitext(resolved_path)
+        new_path = create_path(resolved_path)
+        self.assertEquals(new_path, os.path.join(dirname,filename+'.encoded'+ext))
 
 if __name__ == '__main__':
     unittest.main()

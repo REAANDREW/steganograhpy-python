@@ -5,8 +5,11 @@ message = "Lorem Ipsum is simply dummy text of the printing and typesetting indu
 def create(path):
     return Steganographer(RedOnlyStrategy(), path)
 
-s_write = create('tux.png')
+path = './tux.png'
+encoded_path = create_path(path)
+
+s_write = create(path)
 s_write.encode(message)
 
-s_read = create('encoded.png')
+s_read = create(encoded_path)
 print(s_read.decode())
